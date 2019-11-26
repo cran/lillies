@@ -48,12 +48,12 @@ data(simu_data)
 lyl_estimation <- lyl(data = simu_data, t = age_death, status = death,
                       age_specific = 45, tau = 95)
 
+\donttest{
 # Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
 lyl_estimation_ci <- lyl_ci(lyl_estimation, niter = 3)
 summary(lyl_estimation_ci)
 plot(lyl_estimation_ci)
 
-\donttest{
 # Estimate remaining life expectancy and Life Years
 # Lost after each age from 0 to 94 years and before age 95 years
 lyl_estimation2 <- lyl_range(data = simu_data, t = age_death, status = death,

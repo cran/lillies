@@ -152,7 +152,7 @@ lyl_range <- function(data,  t0 = NULL, t, status, age_begin, age_end, censoring
     # Estimation of LYL at specific age
     if (nrow(pop) == 0) {
       LYL_age <- data.frame(age = age_specific)
-      for(lab in c(death_labels, "life_exp")) {
+      for(lab in c(gsub(" ", "", death_labels), "life_exp")) {
         LYL_age[1, lab] <- NA
       }
     } else {

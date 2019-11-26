@@ -74,13 +74,14 @@ plot(lyl_estimation)
 # Estimate remaining life expectancy and Life Years
 # Lost due to specific causes of death after age 45
 # years and before age 95 years
+\donttest{
 lyl_estimation2 <- lyl(data = simu_data, t = age_death, status = cause_death,
                        age_specific = 45, tau = 95)
 
 # Summarize and plot the data
 summary(lyl_estimation2)
 plot(lyl_estimation2)
-
+}
 }
 \references{
 \itemize{

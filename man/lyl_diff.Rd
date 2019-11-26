@@ -49,17 +49,16 @@ lyl_estimation1 <- lyl(data = diseased, t0 = age_disease,
                        age_specific = 45, tau = 95)
 lyl_diff(lyl_estimation1, lyl_estimation0)
 
+\donttest{
 # Calculate bootstrapped confidence interval (3 iterations to test)
 lyl_estimation1_ci <- lyl_ci(lyl_estimation1, niter = 3)
-\donttest{
+
 lyl_estimation0_ci <- lyl_ci(lyl_estimation0, niter = 3)
 lyl_diff(lyl_estimation1_ci, lyl_estimation0_ci)
-}
 
 # It is also possible to assume no uncertainty for one of the estimates
 lyl_diff(lyl_estimation1_ci, lyl_estimation0)
 
-\donttest{
 # Estimate remaining life expectancy and Life Years
 # Lost due to specific causes of death after each age
 # from 0 to 94 years and before age 95 years

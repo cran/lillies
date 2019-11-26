@@ -73,13 +73,14 @@
 #' # Estimate remaining life expectancy and Life Years
 #' # Lost due to specific causes of death after age 45
 #' # years and before age 95 years
+#' \donttest{
 #' lyl_estimation2 <- lyl(data = simu_data, t = age_death, status = cause_death,
 #'                        age_specific = 45, tau = 95)
 #'
 #' # Summarize and plot the data
 #' summary(lyl_estimation2)
 #' plot(lyl_estimation2)
-#'
+#' }
 
 lyl <- function(data, t0 = NULL, t, status, age_specific, censoring_label = "Alive",
                 death_labels = "Dead", tau = 100)  {
@@ -111,6 +112,10 @@ lyl <- function(data, t0 = NULL, t, status, age_specific, censoring_label = "Ali
 
   # Prepare poopulation at risk at that age
   pop <- tmp[tmp$t1 > age_specific, ]
+  if(nrow(pop) == 0) {
+    stop(paste0("There are no persons at risk at age ", age_specific, " years."),
+         call. = FALSE)
+  }
   pop$age_begin <- pmax(pop$t0, age_specific)
 
   message("3. Estimating...")

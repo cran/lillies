@@ -259,11 +259,11 @@ lyl_checkplot <- function(x) {
 #' lyl_estimation <- lyl(data = simu_data, t = age_death, status = death,
 #'                       age_specific = 45, tau = 95)
 #'
+#' \donttest{
 #' # Calculate bootstrapped confidence interval (10 iterations to test)
 #' lyl_estimation_ci <- lyl_ci(lyl_estimation, niter = 10)
 #' plot(lyl_estimation_ci)
 #'
-#' \donttest{
 #' # Estimate remaining life expectancy and Life Years
 #' # Lost after each age from 0 to 94 years and before age 95 years
 #' lyl_estimation2 <- lyl_range(data = simu_data, t = age_death, status = death,
@@ -326,7 +326,8 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
   LYL_ci_plot <- tidyr::gather(LYL_ci_plot, "cause", "estimate", -.data$iteration, -.data$param)
 
   if (x[["competing_risks"]]) {
-    LYL_ci_plot$cause <- factor(LYL_ci_plot$cause, levels = c("TotalLYL", x[["death_labels"]]))
+    LYL_ci_plot$cause <- factor(LYL_ci_plot$cause, levels = c("TotalLYL", gsub(" ", "", x[["death_labels"]])),
+                                labels = c("Total LYL", x[["death_labels"]]))
   } else {
     LYL_ci_plot$cause <- "LYL"
   }
