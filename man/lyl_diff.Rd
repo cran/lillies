@@ -75,13 +75,15 @@ lyl_estimation3_ci <- lyl_ci(lyl_estimation3, niter = 3)
 lyl_diff(lyl_estimation3_ci, lyl_estimation2, weights = diseased$age_disease)
 }
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \itemize{
     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
     \item{\code{\link{lyl_range}} for estimation of Life Years Lost for a range of different ages.}
 }
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }

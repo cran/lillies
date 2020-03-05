@@ -59,7 +59,8 @@
 #' @references \itemize{
 #'     \item{Andersen PK. Life years lost among patients with a given disease. \emph{Statistics in Medicine}. 2017;36(22):3573- 3582.}
 #'     \item{Andersen PK. Decomposition of number of life years lost according to causes of death. \emph{Statistics in Medicine}. 2013;32(30):5278-5285.}
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
 #' }
 #'
 #' @examples

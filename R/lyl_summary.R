@@ -20,9 +20,10 @@
 #'     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #' @examples
 #' # Load simulated data as example
 #' data(simu_data)
@@ -96,9 +97,10 @@ summary.lyl <- function(object, decimals = 2, difference = FALSE, ...) {
 #'     \item{\code{\link{lyl_range}} for estimation of Life Years Lost for a range of different ages.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #' @examples
 #' # Load simulated data as example
 #' data(simu_data)
@@ -201,9 +203,10 @@ summary.lyl_range <- function(object, decimals = 2, weights = NA, difference = F
 #'     \item{\code{\link{lyl_ci}} to estimate bootstrapped confidence intervals.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #' @examples
 #' # Load simulated data as example
 #' data(simu_data)

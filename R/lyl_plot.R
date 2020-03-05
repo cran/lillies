@@ -245,9 +245,10 @@ lyl_checkplot <- function(x) {
 #'     \item{\code{\link{lyl_ci}} to estimate bootstrapped confidence intervals.}
 #'  }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #'
 #' @examples
 #'

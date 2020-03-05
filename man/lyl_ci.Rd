@@ -65,6 +65,12 @@ summary(lyl_estimation_ci2, weights = simu_data$age_disease)
 plot(lyl_estimation_ci2, weights = simu_data$age_disease)
 }
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \itemize{
     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
@@ -75,8 +81,4 @@ plot(lyl_estimation_ci2, weights = simu_data$age_disease)
 }
 
 \code{\link{lyl_range}} for estimation of Life Years Lost for a range of different ages.
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }

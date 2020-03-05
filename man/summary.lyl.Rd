@@ -35,12 +35,14 @@ lyl_estimation <- lyl(data = simu_data, t = age_death, status = death,
 summary(lyl_estimation)
 
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \itemize{
     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
 }
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }
