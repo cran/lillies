@@ -128,13 +128,13 @@ lyl_aggregated <- function(data, age, rates, surv, data0, age0, rates0, surv0,
   tmp_age0$pop <- "reference"
 
   km <- rbind(tmp_age, tmp_age0)
-  colnames(km) <- c("time", censoring_label, "pop")
-  km[, gsub(" ", "", death_labels)] <- 1 - km[, censoring_label]
+  colnames(km) <- c("time", gsub(" ", "", censoring_label), "pop")
+  km[, gsub(" ", "", death_labels)] <- 1 - km[, gsub(" ", "", censoring_label)]
 
   km2 <- unique(tidyr::gather(km, "cause", "cip", -.data$time, -.data$pop))
   km2$cause <- factor(
     km2$cause,
-    levels=c(censoring_label, gsub(" ", "", death_labels)),
+    levels=c(gsub(" ", "", censoring_label), gsub(" ", "", death_labels)),
     labels=c(censoring_label, death_labels)
   )
 

@@ -19,7 +19,8 @@
 #' a numeric variable, whose lowest level is treated as censoring. In the latter case,
 #' the label for censoring is \code{censoring_label} (\code{"Alive"} by default).
 #' @param age_specific Specific age at which the Life Years Lost have to be estimated.
-#' @param censoring_label Label for censoring status (\code{"Alive"} by default).
+#' @param censoring_label Label for censoring status. If \code{status} is not a factor, \code{"Alive"} by default. If
+#' \code{status} is a factor, the first level will be treated as censoring label.
 #' @param death_labels Label for event status. For only one cause of death, \code{"Dead"} is the default.
 #' For multiple causes, the default are the values given in variable \code{status}.
 #' @param tau Remaining life expectancy and Life Years Lost are estimated restrictied to a maximum
@@ -110,6 +111,7 @@ lyl <- function(data, t0 = NULL, t, status, age_specific, censoring_label = "Ali
   competing_risks <- check$competing_risks
   censoring_value <- check$censoring_value
   death_labels <- check$death_labels
+  censoring_label <- check$censoring_label
 
   # Prepare poopulation at risk at that age
   pop <- tmp[tmp$t1 > age_specific, ]
@@ -131,7 +133,7 @@ lyl <- function(data, t0 = NULL, t, status, age_specific, censoring_label = "Ali
   cr_df2 <- unique(tidyr::gather(cr_df, "cause", "cip", -.data$time))
   cr_df2$cause <- factor(
     cr_df2$cause,
-    levels=c(censoring_label, gsub(" ", "", death_labels)),
+    levels=gsub(" ", "", c(censoring_label, death_labels)),
     labels=c(censoring_label, death_labels)
   )
 

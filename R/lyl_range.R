@@ -20,7 +20,8 @@
 #' the label for censoring is \code{censoring_label} (\code{"Alive"} by default).
 #' @param age_begin Specific starting age at which the Life Years Lost have to be estimated.
 #' @param age_end Specific ending age at which the Life Years Lost have to be estimated.
-#' @param censoring_label Label for censoring status (\code{"Alive"} by default).
+#' @param censoring_label Label for censoring status. If \code{status} is not a factor, \code{"Alive"} by default. If
+#' \code{status} is a factor, the first level will be treated as censoring label.
 #' @param death_labels Label for event status. For only one cause of death, \code{"Dead"} is the default.
 #' For multiple causes, the default are the values given in variable \code{status}.
 #' @param tau Remaining life expectancy and Life Years Lost are estimated restrictied to a maximum
@@ -127,6 +128,7 @@ lyl_range <- function(data,  t0 = NULL, t, status, age_begin, age_end, censoring
   competing_risks <- check$competing_risks
   censoring_value <- check$censoring_value
   death_labels <- check$death_labels
+  censoring_label <- check$censoring_label
 
   iterations <- age_end - age_begin + 1
   pb <- progress::progress_bar$new(total = iterations + 1, clear = F, show_after = 0, width = floor(0.4 * getOption("width")))

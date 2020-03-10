@@ -58,6 +58,7 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
     values <- c(FALSE, TRUE)
     censoring_value <- FALSE
     death_labels <- death_labels[1]
+    censoring_label <- censoring_label
   }
 
   # If it's a factor
@@ -66,6 +67,7 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
     message(paste0("2. Type of outcome data: 'factor' (censoring = '", values[1], "' / different causes of death = '", paste(values[-1], collapse="', '"), "') [competing risks]"))
     competing_risks <- TRUE
     censoring_value <- values[1]
+    censoring_label <- values[1]
     death_labels <- values[-1]
   }
 
@@ -78,6 +80,7 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
       censoring_value <- FALSE
       competing_risks <- FALSE
       death_labels <- death_labels[1]
+      censoring_label <- censoring_label
     }
     if (length(values) == 2) {
       tmp$status <- (tmp$status == values[2])
@@ -85,6 +88,7 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
       censoring_value <- values[1]
       competing_risks <- FALSE
       death_labels <- death_labels[1]
+      censoring_label <- censoring_label
     }
     if (length(values) > 2) {
       tmp$status <- factor(tmp$status, levels = values, labels = c(censoring_label, paste0("Cause", values[-1])))
@@ -92,6 +96,7 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
       competing_risks <- TRUE
       censoring_value <- values[1]
       death_labels <- paste0("Cause", values[-1])
+      censoring_label <- censoring_label
     }
   }
   return(
@@ -100,7 +105,8 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
       values = values,
       competing_risks = competing_risks,
       censoring_value = censoring_value,
-      death_labels = death_labels
+      death_labels = death_labels,
+      censoring_label = censoring_label
     )
   )
 }
@@ -137,9 +143,9 @@ estimate_lyl <- function(pop, age_specific, tau, competing_risks, censoring_labe
 
   if (!competing_risks) {
     cr_df <- data.frame(time = km$time, prob = km$surv)
-    colnames(cr_df) <- c("time", censoring_label)
-    cr_df[, gsub(" ", "", death_labels)] <- 1 - cr_df[, censoring_label]
-    cr_df <- cr_df[, c("time", gsub(" ", "", death_labels), censoring_label)]
+    colnames(cr_df) <- c("time", gsub(" ", "", censoring_label))
+    cr_df[, gsub(" ", "", death_labels)] <- 1 - cr_df[, gsub(" ", "", censoring_label)]
+    cr_df <- cr_df[, c("time", gsub(" ", "", death_labels), gsub(" ", "", censoring_label))]
   }
   if (competing_risks) {
     cr_df <- data.frame(time = km$time, prob = km$pstate)
@@ -147,16 +153,16 @@ estimate_lyl <- function(pop, age_specific, tau, competing_risks, censoring_labe
     #Change for survival 3.0
     if(utils::packageVersion("survival") >= 3) {
       colnames(cr_df) <- c("time", gsub(" ", "", km$states))
-      colnames(cr_df)[colnames(cr_df) == "(s0)"] <- censoring_label
+      colnames(cr_df)[colnames(cr_df) == "(s0)"] <- gsub(" ", "", censoring_label)
     } else {
-      states <- c(km$states[-length(km$states)], censoring_label)
+      states <- c(km$states[-length(km$states)], gsub(" ", "", censoring_label))
       colnames(cr_df) <- c("time", gsub(" ", "", states))
     }
 
   }
 
   cr_df <- dplyr::add_row(cr_df, time = 0, .before = 1)
-  cr_df[is.na(cr_df[, censoring_label]), censoring_label] <- 1
+  cr_df[is.na(cr_df[, gsub(" ", "", censoring_label)]), gsub(" ", "", censoring_label)] <- 1
   cr_df[is.na(cr_df)] <- 0
   cr_df <- unique(cr_df)
   cr_df$time <- cr_df$time + age_specific
@@ -168,7 +174,7 @@ estimate_lyl <- function(pop, age_specific, tau, competing_risks, censoring_labe
     LYL[1, colnames(cr_df)[j]] <- pracma::trapz(cr_df$time, cr_df[, colnames(cr_df)[j]])
   }
 
-  colnames(LYL)[colnames(LYL) == censoring_label] <- "life_exp"
+  colnames(LYL)[colnames(LYL) == gsub(" ", "", censoring_label)] <- "life_exp"
 
   output <- list(
     LYL = LYL,
