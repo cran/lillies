@@ -5,11 +5,19 @@
 \title{Plot Life Years Lost at one specific age for two different populations obtained from
 aggregated data}
 \usage{
-\method{plot}{lyl_aggregated}(x, colors = NA,
-  labels = c("Population of interest", "Reference population"), ...)
+\method{plot}{lyl_aggregated}(
+  x,
+  color_alive = NA,
+  colors = NA,
+  labels = c("Population of interest", "Reference population"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{lyl_aggregated} (obtained with function \code{lyl_aggregated}).}
+
+\item{color_alive}{Color to be used for the censoring category. Default is NA, and
+default color is "white".}
 
 \item{colors}{Vector with one color for each cause of death. Default is NA, and
 default colors are used.}
@@ -43,12 +51,14 @@ lyl_summary_data70 <- lyl_aggregated(data = aggreg_data, age = age, rates = rate
 plot(lyl_summary_data70)
 
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \itemize{
     \item{\code{\link{lyl_aggregated}} for estimation of Life Years Lost at one specific age.}
 }
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }

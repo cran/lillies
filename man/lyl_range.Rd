@@ -4,8 +4,17 @@
 \alias{lyl_range}
 \title{Life Years Lost at a range of different ages.}
 \usage{
-lyl_range(data, t0 = NULL, t, status, age_begin, age_end,
-  censoring_label = "Alive", death_labels = "Dead", tau = 100)
+lyl_range(
+  data,
+  t0 = NULL,
+  t,
+  status,
+  age_begin,
+  age_end,
+  censoring_label = "Alive",
+  death_labels = "Dead",
+  tau = 100
+)
 }
 \arguments{
 \item{data}{A dataframe, where each raw represents a person. The dataframe will
@@ -28,7 +37,8 @@ the label for censoring is \code{censoring_label} (\code{"Alive"} by default).}
 
 \item{age_end}{Specific ending age at which the Life Years Lost have to be estimated.}
 
-\item{censoring_label}{Label for censoring status (\code{"Alive"} by default).}
+\item{censoring_label}{Label for censoring status. If \code{status} is not a factor, \code{"Alive"} by default. If
+\code{status} is a factor, the first level will be treated as censoring label.}
 
 \item{death_labels}{Label for event status. For only one cause of death, \code{"Dead"} is the default.
 For multiple causes, the default are the values given in variable \code{status}.}

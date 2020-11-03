@@ -4,8 +4,16 @@
 \alias{lyl}
 \title{Life Years Lost at one specific age.}
 \usage{
-lyl(data, t0 = NULL, t, status, age_specific,
-  censoring_label = "Alive", death_labels = "Dead", tau = 100)
+lyl(
+  data,
+  t0 = NULL,
+  t,
+  status,
+  age_specific,
+  censoring_label = "Alive",
+  death_labels = "Dead",
+  tau = 100
+)
 }
 \arguments{
 \item{data}{A dataframe, where each raw represents a person. The dataframe will
@@ -26,7 +34,8 @@ the label for censoring is \code{censoring_label} (\code{"Alive"} by default).}
 
 \item{age_specific}{Specific age at which the Life Years Lost have to be estimated.}
 
-\item{censoring_label}{Label for censoring status (\code{"Alive"} by default).}
+\item{censoring_label}{Label for censoring status. If \code{status} is not a factor, \code{"Alive"} by default. If
+\code{status} is a factor, the first level will be treated as censoring label.}
 
 \item{death_labels}{Label for event status. For only one cause of death, \code{"Dead"} is the default.
 For multiple causes, the default are the values given in variable \code{status}.}

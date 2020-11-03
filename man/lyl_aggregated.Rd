@@ -4,9 +4,20 @@
 \alias{lyl_aggregated}
 \title{Life Years Lost at one specific age using aggregated data.}
 \usage{
-lyl_aggregated(data, age, rates, surv, data0, age0, rates0, surv0,
-  age_specific, censoring_label = "Alive", death_labels = "Dead",
-  tau = 100)
+lyl_aggregated(
+  data,
+  age,
+  rates,
+  surv,
+  data0,
+  age0,
+  rates0,
+  surv0,
+  age_specific,
+  censoring_label = "Alive",
+  death_labels = "Dead",
+  tau = 100
+)
 }
 \arguments{
 \item{data}{A dataframe, where each raw represents an age, for the population of

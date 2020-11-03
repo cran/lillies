@@ -4,8 +4,14 @@
 \alias{summary.lyl_ci}
 \title{Summarize Life Years Lost with confidence intervals}
 \usage{
-\method{summary}{lyl_ci}(object, decimals = 2, level = 0.95,
-  weights = NA, difference = FALSE, ...)
+\method{summary}{lyl_ci}(
+  object,
+  decimals = 2,
+  level = 0.95,
+  weights = NA,
+  difference = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class \code{lyl_ci} (obtained with function \code{lyl_ci}).}

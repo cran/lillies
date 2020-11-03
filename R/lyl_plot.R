@@ -8,6 +8,9 @@
 #'
 #' @param x An object of class \code{lyl} (obtained with function \code{lyl}).
 #'
+#' @param color_alive Color to be used for the censoring category. Default is NA, and
+#' default color is "white".
+#'
 #' @param colors Vector with one color for each cause of death. Default is NA, and
 #' default colors are used.
 #'
@@ -19,9 +22,10 @@
 #'     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #'
 #' @examples
 #' # Load simulated data as example
@@ -41,10 +45,13 @@
 #'   ggplot2::xlab("Age [in years]") +
 #'   ggplot2::ggtitle("Life Years Lost at age 45 years")
 
-plot.lyl <- function(x, colors = NA, ...) {
+plot.lyl <- function(x, color_alive = NA, colors = NA, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package 'ggplot2' needed for this function to work. Please install it.",
          call. = FALSE)
+  }
+  if (is.na(color_alive)) {
+    color_alive <- "white"
   }
   if (is.na(colors[1])) {
     colors <- lyl_colors(length(x[["death_labels"]]))
@@ -60,7 +67,7 @@ plot.lyl <- function(x, colors = NA, ...) {
     ggplot2::ylab(paste0("Percentage of persons alive")) +
     ggplot2::scale_fill_manual(
       name = "",
-      values = c("white", colors))
+      values = c(color_alive, colors))
 
   return(g)
 }
@@ -86,9 +93,10 @@ plot.lyl <- function(x, colors = NA, ...) {
 #'     \item{\code{\link{lyl_range}} for estimation of Life Years Lost for a range of different ages.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #'
 #' @examples
 #' # Load simulated data as example
@@ -162,9 +170,10 @@ plot.lyl_range <- function(x, colors = NA, ...) {
 #'
 #' @seealso \code{\link{lyl_range}} for estimation of Life Years Lost for a range of different ages.
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #'
 #' @examples
 #' # Load simulated data as example
@@ -358,6 +367,9 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
 #'
 #' @param y An object of class \code{lyl} (obtained with function \code{lyl}).
 #'
+#' @param color_alive Color to be used for the censoring category. Default is NA, and
+#' default color is "white".
+#'
 #' @param colors Vector with one color for each cause of death. Default is NA, and
 #' default colors are used.
 #'
@@ -374,9 +386,10 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
 #'     \item{\code{\link{lyl_diff}} to compare Life Years Lost for two populations.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #'
 #' @examples
 #' # Load simulated data as example
@@ -404,7 +417,7 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
 #'   ggplot2::xlab("Age [in years]") +
 #'   ggplot2::ggtitle("Differences in Life Years Lost at age 45 years")
 
-lyl_2plot <- function(x, y, colors = NA, labels = c("Population of interest", "Reference population"), ...) {
+lyl_2plot <- function(x, y, color_alive = NA, colors = NA, labels = c("Population of interest", "Reference population"), ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package 'ggplot2' needed for this function to work. Please install it.",
          call. = FALSE)
@@ -433,6 +446,10 @@ lyl_2plot <- function(x, y, colors = NA, labels = c("Population of interest", "R
          call. = FALSE)
    }
 
+  if (is.na(color_alive)) {
+    color_alive <- "white"
+  }
+
   if (is.na(colors[1])) {
     colors <- lyl_colors(length(x[["death_labels"]]))
   }
@@ -457,7 +474,7 @@ lyl_2plot <- function(x, y, colors = NA, labels = c("Population of interest", "R
     ggplot2::ylab(paste0("Percentage of persons alive")) +
     ggplot2::scale_fill_manual(
       name = "",
-      values = c("white", colors))
+      values = c(color_alive, colors))
 
   return(g)
 }
@@ -472,6 +489,9 @@ lyl_2plot <- function(x, y, colors = NA, labels = c("Population of interest", "R
 #' @importFrom rlang .data
 #'
 #' @param x An object of class \code{lyl_aggregated} (obtained with function \code{lyl_aggregated}).
+#'
+#' @param color_alive Color to be used for the censoring category. Default is NA, and
+#' default color is "white".
 #'
 #' @param colors Vector with one color for each cause of death. Default is NA, and
 #' default colors are used.
@@ -489,9 +509,10 @@ lyl_2plot <- function(x, y, colors = NA, labels = c("Population of interest", "R
 #'     \item{\code{\link{lyl_aggregated}} for estimation of Life Years Lost at one specific age.}
 #' }
 #'
-#' % @references \itemize{
-#'     % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-#' % }
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
 #'
 #' @examples
 #' # Load simulated data as example
@@ -507,11 +528,16 @@ lyl_2plot <- function(x, y, colors = NA, labels = c("Population of interest", "R
 #' # Plot the data
 #' plot(lyl_summary_data70)
 #'
-plot.lyl_aggregated <- function(x, colors = NA, labels = c("Population of interest", "Reference population"), ...) {
+plot.lyl_aggregated <- function(x, color_alive = NA, colors = NA, labels = c("Population of interest", "Reference population"), ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package 'ggplot2' needed for this function to work. Please install it.",
          call. = FALSE)
   }
+
+  if (is.na(color_alive)) {
+    color_alive <- "white"
+  }
+
   if (is.na(colors[1])) {
     colors <- lyl_colors(1)
   }
@@ -530,7 +556,7 @@ plot.lyl_aggregated <- function(x, colors = NA, labels = c("Population of intere
     ggplot2::ylab(paste0("Percentage of persons alive")) +
     ggplot2::scale_fill_manual(
       name = "",
-      values = c("white", colors))
+      values = c(color_alive, colors))
 
   return(g)
 }

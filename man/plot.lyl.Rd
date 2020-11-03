@@ -4,10 +4,13 @@
 \alias{plot.lyl}
 \title{Plot Life Years Lost at one specific age}
 \usage{
-\method{plot}{lyl}(x, colors = NA, ...)
+\method{plot}{lyl}(x, color_alive = NA, colors = NA, ...)
 }
 \arguments{
 \item{x}{An object of class \code{lyl} (obtained with function \code{lyl}).}
+
+\item{color_alive}{Color to be used for the censoring category. Default is NA, and
+default color is "white".}
 
 \item{colors}{Vector with one color for each cause of death. Default is NA, and
 default colors are used.}
@@ -39,12 +42,14 @@ plot(lyl_estimation) +
   ggplot2::xlab("Age [in years]") +
   ggplot2::ggtitle("Life Years Lost at age 45 years")
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \itemize{
     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
 }
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }

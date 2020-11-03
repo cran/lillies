@@ -4,12 +4,14 @@
 \name{pop_ref}
 \alias{pop_ref}
 \title{Aggregated data for Life Years Lost estimation.}
-\format{A data frame with 100 rows and 3 variables:
+\format{
+A data frame with 100 rows and 3 variables:
 \describe{
   \item{age}{age}
   \item{survival}{survival probability at that specific age}
   \item{mortality_rates}{age-specific mortality rates}
-}}
+}
+}
 \source{
 Statistics Danmark (https://www.dst.dk/en/Statistik/emner/befolkning-og-valg/)
 }

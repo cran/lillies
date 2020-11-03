@@ -35,10 +35,12 @@ lyl_checkplot(lyl_estimation) +
   ggplot2::ggtitle("Persons at risk of dying at each age 0-94 years")
 
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \code{\link{lyl_range}} for estimation of Life Years Lost for a range of different ages.
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }

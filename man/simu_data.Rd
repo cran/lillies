@@ -4,7 +4,8 @@
 \name{simu_data}
 \alias{simu_data}
 \title{Simulated population for Life Years Lost estimation.}
-\format{A data frame with 100000 rows and 6 variables:
+\format{
+A data frame with 100000 rows and 6 variables:
 \describe{
   \item{id}{unique identifier of each person}
   \item{age_start}{age at start of follow-up (0 for all individuals)}
@@ -15,7 +16,8 @@
   and unnatural causes of death, respectively)}
   \item{age_disease}{age at developing a specific disease or condition for those
   32,391 individuals that develop the disease (missing for the remaining 67,609)}
-}}
+}
+}
 \source{
 Simulated data
 }

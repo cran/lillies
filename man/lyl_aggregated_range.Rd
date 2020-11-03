@@ -4,9 +4,22 @@
 \alias{lyl_aggregated_range}
 \title{Life Years Lost at a range of different ages using aggregated data.}
 \usage{
-lyl_aggregated_range(data, age, rates, surv, weights, data0, age0, rates0,
-  surv0, age_begin, age_end, censoring_label = "Alive",
-  death_labels = "Dead", tau = 100)
+lyl_aggregated_range(
+  data,
+  age,
+  rates,
+  surv,
+  weights,
+  data0,
+  age0,
+  rates0,
+  surv0,
+  age_begin,
+  age_end,
+  censoring_label = "Alive",
+  death_labels = "Dead",
+  tau = 100
+)
 }
 \arguments{
 \item{data}{A dataframe, where each raw represents an age, for the population of

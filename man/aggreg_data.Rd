@@ -4,13 +4,15 @@
 \name{aggreg_data}
 \alias{aggreg_data}
 \title{Simulated aggregated data for Life Years Lost estimation.}
-\format{A data frame with 50 rows and 4 variables:
+\format{
+A data frame with 50 rows and 4 variables:
 \describe{
   \item{age}{age}
   \item{new_cases}{number of new cases diagnosed at that specific age}
   \item{deaths}{number of deaths among the diagnosed at that specific age}
   \item{rate}{age-specific mortality rates among the diagnosed}
-}}
+}
+}
 \source{
 Simulated data
 }

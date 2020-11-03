@@ -4,13 +4,22 @@
 \alias{lyl_2plot}
 \title{Plot Life Years Lost at one specific age for two different populations}
 \usage{
-lyl_2plot(x, y, colors = NA, labels = c("Population of interest",
-  "Reference population"), ...)
+lyl_2plot(
+  x,
+  y,
+  color_alive = NA,
+  colors = NA,
+  labels = c("Population of interest", "Reference population"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{lyl} (obtained with function \code{lyl}).}
 
 \item{y}{An object of class \code{lyl} (obtained with function \code{lyl}).}
+
+\item{color_alive}{Color to be used for the censoring category. Default is NA, and
+default color is "white".}
 
 \item{colors}{Vector with one color for each cause of death. Default is NA, and
 default colors are used.}
@@ -54,13 +63,15 @@ lyl_2plot(lyl_estimation1, lyl_estimation) +
   ggplot2::xlab("Age [in years]") +
   ggplot2::ggtitle("Differences in Life Years Lost at age 45 years")
 }
+\references{
+\itemize{
+    \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+    \emph{PLoS ONE}. 2020;15(3):e0228073.}
+}
+}
 \seealso{
 \itemize{
     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
     \item{\code{\link{lyl_diff}} to compare Life Years Lost for two populations.}
 }
-
-% @references \itemize{
-    % \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition. \emph{In preparation}.}
-% }
 }

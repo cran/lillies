@@ -4,8 +4,7 @@
 \alias{summary.lyl_range}
 \title{Summarize Life Years Lost over a range of differents ages}
 \usage{
-\method{summary}{lyl_range}(object, decimals = 2, weights = NA,
-  difference = FALSE, ...)
+\method{summary}{lyl_range}(object, decimals = 2, weights = NA, difference = FALSE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{lyl_range} (obtained with function \code{lyl_range}).}

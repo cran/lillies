@@ -4,8 +4,13 @@
 \alias{lyl_diff}
 \title{Summarize differences in Life Years Lost.}
 \usage{
-lyl_diff(lyl_population1, lyl_population0, decimals = 2, level = 0.95,
-  weights = NA)
+lyl_diff(
+  lyl_population1,
+  lyl_population0,
+  decimals = 2,
+  level = 0.95,
+  weights = NA
+)
 }
 \arguments{
 \item{lyl_population1}{Population of interest: An object of class \code{lyl} or \code{lyl_range} (obtained with

@@ -139,26 +139,38 @@ lyl_colors <- function(num_deaths) {
 
 estimate_lyl <- function(pop, age_specific, tau, competing_risks, censoring_label, death_labels) {
 
-  km <- survival::survfit(survival::Surv(age_begin, t1, status, origin = age_specific) ~ 1, data = pop, id = 1:nrow(pop), se.fit = FALSE)
-
   if (!competing_risks) {
+    km <- survival::survfit(survival::Surv(age_begin, t1, status, origin = age_specific) ~ 1, data = pop, id = 1:nrow(pop), se.fit = FALSE)
+
     cr_df <- data.frame(time = km$time, prob = km$surv)
     colnames(cr_df) <- c("time", gsub(" ", "", censoring_label))
     cr_df[, gsub(" ", "", death_labels)] <- 1 - cr_df[, gsub(" ", "", censoring_label)]
     cr_df <- cr_df[, c("time", gsub(" ", "", death_labels), gsub(" ", "", censoring_label))]
   }
   if (competing_risks) {
-    cr_df <- data.frame(time = km$time, prob = km$pstate)
 
-    #Change for survival 3.0
-    if(utils::packageVersion("survival") >= 3) {
-      colnames(cr_df) <- c("time", gsub(" ", "", km$states))
-      colnames(cr_df)[colnames(cr_df) == "(s0)"] <- gsub(" ", "", censoring_label)
+    # Survival package gives problems in estimating competing risks when all observations are censored
+    if(nrow(pop[pop$status != censoring_label, ]) != 0) {
+      km <- survival::survfit(survival::Surv(age_begin, t1, status, origin = age_specific) ~ 1, data = pop, id = 1:nrow(pop), se.fit = FALSE)
+
+      cr_df <- data.frame(time = km$time, prob = km$pstate)
+
+      #Change for survival 3.0
+      if(utils::packageVersion("survival") >= 3) {
+        colnames(cr_df) <- c("time", gsub(" ", "", km$states))
+        colnames(cr_df)[colnames(cr_df) == "(s0)"] <- gsub(" ", "", censoring_label)
+      } else {
+        states <- c(km$states[-length(km$states)], gsub(" ", "", censoring_label))
+        colnames(cr_df) <- c("time", gsub(" ", "", states))
+      }
     } else {
-      states <- c(km$states[-length(km$states)], gsub(" ", "", censoring_label))
-      colnames(cr_df) <- c("time", gsub(" ", "", states))
+      cr_df <- data.frame()
+      cr_df[1, "time"] <- max(pop[, "t1"]-age_specific)
+      for(c in c(death_labels)) {
+        cr_df[1, gsub(" ", "", c)] <- 0
+      }
+      cr_df[1, gsub(" ", "", censoring_label)] <- 1
     }
-
   }
 
   cr_df <- dplyr::add_row(cr_df, time = 0, .before = 1)
