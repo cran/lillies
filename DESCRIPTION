@@ -1,6 +1,6 @@
 Package: lillies
 Title: Estimation of Life Years Lost
-Version: 0.2.8
+Version: 0.2.9
 Authors@R: 
     person(given = "Oleguer",
            family = "Plana-Ripoll",
@@ -23,9 +23,9 @@ Imports: ddpcr, dplyr, knitr, pracma, progress, rlang, survival, tidyr,
         utils
 Suggests: ggplot2
 NeedsCompilation: no
-Packaged: 2020-11-03 08:26:32 UTC; au464894
+Packaged: 2021-02-16 14:28:02 UTC; au464894
 Author: Oleguer Plana-Ripoll [aut, cre]
     (<https://orcid.org/0000-0002-6470-7465>)
 Maintainer: Oleguer Plana-Ripoll <opr@econ.au.dk>
 Repository: CRAN
-Date/Publication: 2020-11-03 09:20:02 UTC
+Date/Publication: 2021-02-16 17:10:05 UTC

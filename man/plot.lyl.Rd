@@ -4,7 +4,7 @@
 \alias{plot.lyl}
 \title{Plot Life Years Lost at one specific age}
 \usage{
-\method{plot}{lyl}(x, color_alive = NA, colors = NA, ...)
+\method{plot}{lyl}(x, color_alive = NA, colors = NA, reverse_legend = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{lyl} (obtained with function \code{lyl}).}
@@ -14,6 +14,8 @@ default color is "white".}
 
 \item{colors}{Vector with one color for each cause of death. Default is NA, and
 default colors are used.}
+
+\item{reverse_legend}{Reverse the order of elements in the legend. Ddefault is FALSE, indicating that first is the censoring label and then all causes of death.}
 
 \item{...}{Additional arguments affecting the plot produced.}
 }

@@ -14,6 +14,8 @@
 #' @param colors Vector with one color for each cause of death. Default is NA, and
 #' default colors are used.
 #'
+#' @param reverse_legend Reverse the order of elements in the legend. Ddefault is FALSE, indicating that first is the censoring label and then all causes of death.
+#'
 #' @param ... Additional arguments affecting the plot produced.
 #'
 #' @return A plot with survival function and stacked cause-specific cumulative incidences.
@@ -45,7 +47,7 @@
 #'   ggplot2::xlab("Age [in years]") +
 #'   ggplot2::ggtitle("Life Years Lost at age 45 years")
 
-plot.lyl <- function(x, color_alive = NA, colors = NA, ...) {
+plot.lyl <- function(x, color_alive = NA, colors = NA, reverse_legend = FALSE,...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package 'ggplot2' needed for this function to work. Please install it.",
          call. = FALSE)
@@ -67,7 +69,7 @@ plot.lyl <- function(x, color_alive = NA, colors = NA, ...) {
     ggplot2::ylab(paste0("Percentage of persons alive")) +
     ggplot2::scale_fill_manual(
       name = "",
-      values = c(color_alive, colors))
+      values = c(color_alive, colors), guide = ggplot2::guide_legend(reverse = reverse_legend))
 
   return(g)
 }
@@ -357,8 +359,9 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
 
 #' Plot Life Years Lost at one specific age for two different populations
 #'
-#' \code{lyl_2plot} creates a figure of Life Years Lost
-#' at one specific age for two different populations.
+#' \code{lyl_2plot} was used to create a figure of Life Years Lost
+#' at one specific age for two different populations. Please use
+#' \code{lyl_compare_plot} instead.
 #'
 #' @export
 #' @importFrom rlang .data
@@ -408,76 +411,162 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
 #'                       age_specific = 45, tau = 95)
 #'
 #' # Plot the data
-#' lyl_2plot(lyl_estimation1, lyl_estimation)
-#' lyl_2plot(lyl_estimation1, lyl_estimation,
+#' lyl_compare_plot(list(lyl_estimation1, lyl_estimation))
+
+lyl_2plot <- function(x, y, color_alive = NA, colors = NA, labels = c("Population of interest", "Reference population"), ...) {
+  .Deprecated("lyl_compare_plot")
+  g <- lyl_compare_plot(list(x, y), color_alive = color_alive,
+                        colors = colors, nrow = 1, ncol = 2, dir = "h", reverse_legend = FALSE,
+                        labels = labels, ...)
+  return(g)
+}
+
+
+#' Plot Life Years Lost at one specific age for two or more different populations
+#'
+#' \code{lyl_compare_plot} creates a figure of Life Years Lost
+#' at one specific age for two or more different populations.
+#'
+#' @export
+#' @importFrom rlang .data
+#'
+#' @param x A list of objects of class \code{lyl} (obtained with function \code{lyl}).
+#'
+#' @param color_alive Color to be used for the censoring category. Default is NA, and
+#' default color is "white".
+#'
+#' @param colors Vector with one color for each cause of death. Default is NA, and
+#' default colors are used.
+#'
+#' @param nrow Number of rows to be passed to \code{facet_wrap}.
+#'
+#' @param ncol Number of columns to be passed to \code{facet_wrap}.
+#'
+#' @param dir Direction to be passed to facet_wrap: either "h" for horizontal, the default, or "v", for vertical.
+#'
+#' @param reverse_legend Reverse the order of elements in the legend. Ddefault is FALSE, indicating that first is the censoring label and then all causes of death.
+#'
+#' @param labels Vector with labels for the two populations (default are "Population of
+#' interest" for \code{x}, and "Reference population" for \code{y})
+#'
+#' @param ... Additional arguments affecting the plot produced.
+#'
+#' @return A plot with survival function and stacked cause-specific cumulative incidences for two
+#' populations side by side.
+#'
+#' @seealso \itemize{
+#'     \item{\code{\link{lyl}} for estimation of Life Years Lost at one specific age.}
+#'     \item{\code{\link{lyl_diff}} to compare Life Years Lost for two populations.}
+#' }
+#'
+#' @references \itemize{
+#'     \item{Plana-Ripoll et al. lillies – An R package for the estimation of excess Life Years Lost among patients with a given disease or condition.
+#'     \emph{PLoS ONE}. 2020;15(3):e0228073.}
+#' }
+#'
+#' @examples
+#' # Load simulated data as example
+#' data(simu_data)
+#'
+#' # Estimate remaining life expectancy and Life Years
+#' # Lost after age 45 years and before age 95 years
+#' lyl_estimation <- lyl(data = simu_data, t = age_death, status = cause_death,
+#'                       age_specific = 45, tau = 95)
+#'
+#' # Same estimate for those with a specific disease
+#' diseased <- simu_data[!is.na(simu_data$age_disease), ]
+#'
+#' lyl_estimation1 <- lyl(data = diseased, t0 = age_disease,
+#'                        t = age_death, status = cause_death,
+#'                       age_specific = 45, tau = 95)
+#'
+#' # Plot the data
+#' lyl_compare_plot(list(lyl_estimation1, lyl_estimation))
+#' lyl_compare_plot(list(lyl_estimation1, lyl_estimation),
 #'           labels = c("Population with a disease", "General population"))
 #'
 #' # The plot can be modified with a usual ggplot2 format
-#' lyl_2plot(lyl_estimation1, lyl_estimation) +
+#' lyl_compare_plot(list(lyl_estimation1, lyl_estimation)) +
 #'   ggplot2::xlab("Age [in years]") +
 #'   ggplot2::ggtitle("Differences in Life Years Lost at age 45 years")
-
-lyl_2plot <- function(x, y, color_alive = NA, colors = NA, labels = c("Population of interest", "Reference population"), ...) {
+#'
+lyl_compare_plot <- function (x, color_alive = NA, colors = NA, nrow = NULL, ncol = NULL,
+          dir = "h", reverse_legend = FALSE, labels = NA, ...)
+{
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package 'ggplot2' needed for this function to work. Please install it.",
          call. = FALSE)
   }
-  if ((class(x) != "lyl") | (class(y) != "lyl")) {
-    stop("'lyl_2plot' works only with objects 'x' and 'y' obtained with function 'lyl'.",
+  if (class(x) != "list" | length(x) < 1) {
+    stop("'x' must be a list of objects obtained with function 'lyl'.",
          call. = FALSE)
   }
-  if ((x[["age_specific"]] != y[["age_specific"]])) {
-    stop("The two objects must have the same 'age_specific' argument'.",
+  if (class(x[[1]]) != "lyl") {
+    stop("'lyl_compare_plot' works only with a list of objects obtained with function 'lyl'.",
          call. = FALSE)
   }
-
-  if ((x[["tau"]] != y[["tau"]])) {
-    stop("The two objects must have the same 'tau'.",
-         call. = FALSE)
+  if (length(x) > 1) {
+    total <- length(x)
+    for (i in 2:total) {
+      if (class(x[[i]]) != "lyl") {
+        stop("'lyl_compare_plot' works only with a list of objects obtained with function 'lyl'.",
+             call. = FALSE)
+      }
+      if ((x[[1]][["age_specific"]] != x[[i]][["age_specific"]])) {
+        stop("All objects must have the same 'age_specific' argument'.",
+             call. = FALSE)
+      }
+      if ((x[[1]][["tau"]] != x[[i]][["tau"]])) {
+        stop("All objects must have the same 'tau'.",
+             call. = FALSE)
+      }
+      if (!identical(x[[1]][["death_labels"]], x[[i]][["death_labels"]])) {
+        stop("All objects must have the same causes of death.",
+             call. = FALSE)
+      }
+      if (!identical(x[[1]][["censoring_label"]], x[[i]][["censoring_label"]])) {
+        stop("All objects must have the same censoring label.",
+             call. = FALSE)
+      }
+    }
   }
-
-  if (!identical(x[["death_labels"]], y[["death_labels"]])) {
-    stop("The two objects must have the same causes of death.",
-         call. = FALSE)
-  }
-
-  if (!identical(x[["censoring_label"]], y[["censoring_label"]])) {
-    stop("The two objects must have the same censoring label.",
-         call. = FALSE)
-   }
-
   if (is.na(color_alive)) {
     color_alive <- "white"
   }
-
   if (is.na(colors[1])) {
-    colors <- lyl_colors(length(x[["death_labels"]]))
+    colors <- lyl_colors(length(x[[1]][["death_labels"]]))
   }
-
-  data_plot1 <- x[["data_plot"]]
-  data_plot1$pop <- labels[1]
-
-  data_plot2 <- y[["data_plot"]]
-  data_plot2$pop <- labels[2]
-
-  data_plot <- rbind(data_plot1, data_plot2)
+  if (is.na(labels[1])) {
+    labels <- paste0("Population ", 1:length(x))
+  }
+  else {
+    if (length(labels) < length(x)) {
+      num <- (length(labels) + 1):length(x)
+      labels[num] <- paste0("Missing Label (Population ",
+                            num, ")")
+    }
+  }
+  data_plot <- data.frame()
+  for (i in 1:length(x)) {
+    data_ploti <- x[[i]][["data_plot"]]
+    data_ploti$pop <- labels[i]
+    data_plot <- rbind(data_plot, data_ploti)
+  }
   data_plot$pop <- factor(data_plot$pop, levels = labels, labels = labels)
-
-  g <- ggplot2::ggplot(data=data_plot,
-                       ggplot2::aes(x = .data$time, y = 100 * .data$cip, group = .data$cause, fill = .data$cause)) +
-    ggplot2::geom_area(alpha = 0.6, size = 0.3, color = "black", position = ggplot2::position_stack(rev = T)) +
-    ggplot2::facet_wrap( ~ .data$pop) +
-    ggplot2::theme_bw() +
+  g <- ggplot2::ggplot(data = data_plot, ggplot2::aes(x = .data$time,
+                                                      y = 100 * .data$cip, group = .data$cause, fill = .data$cause)) +
+    ggplot2::geom_area(alpha = 0.6, size = 0.3, color = "black",
+                       position = ggplot2::position_stack(rev = T)) + ggplot2::facet_wrap(~.data$pop,
+                                                                                          nrow = nrow, ncol = ncol, dir = dir) + ggplot2::theme_bw() +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-    ggplot2::scale_x_continuous(breaks = seq(x[["age_specific"]], x[["tau"]], 5)) +
-    ggplot2::xlab("Age in years") +
+    ggplot2::scale_x_continuous(breaks = seq(x[[1]][["age_specific"]],
+                                             x[[1]][["tau"]], 5)) + ggplot2::xlab("Age in years") +
     ggplot2::ylab(paste0("Percentage of persons alive")) +
-    ggplot2::scale_fill_manual(
-      name = "",
-      values = c(color_alive, colors))
-
+    ggplot2::scale_fill_manual(name = "", values = c(color_alive,
+                colors), guide = ggplot2::guide_legend(reverse = reverse_legend))
   return(g)
 }
+
 
 #' Plot Life Years Lost at one specific age for two different populations obtained from
 #' aggregated data

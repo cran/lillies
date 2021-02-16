@@ -50,6 +50,7 @@
 #'                        t = age_death, status = cause_death,
 #'                        age_specific = 45, tau = 95)
 #' lyl_diff(lyl_estimation1, lyl_estimation0)
+#' lyl_compare_plot(list(lyl_estimation1, lyl_estimation0))
 #'
 #' \donttest{
 #' # Calculate bootstrapped confidence interval (3 iterations to test)
