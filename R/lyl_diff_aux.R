@@ -24,11 +24,13 @@ lyl_diff_lyl <- function(lyl_population1, lyl_population0, decimals, weights = N
   cat(paste0("Differences in estimates comparing '", as.character(parameters$lyl_population1),
              "' with '", as.character(parameters$lyl_population0), "'.\n"))
 
-  if (class(lyl_population1) == "lyl") {
+  if (methods::is(lyl_population1, "lyl")) {
+  #if (class(lyl_population1) == "lyl") {
       class(output) <- "lyl"
       return(summary(output, decimals = decimals, difference = TRUE))
   }
-  if (class(lyl_population1) == "lyl_range") {
+  if (methods::is(lyl_population1, "lyl_range")) {
+  #if (class(lyl_population1) == "lyl_range") {
     class(output) <- "lyl_range"
     return(summary(output, decimals = decimals, weights = weights, difference = TRUE))
   }

@@ -68,8 +68,8 @@
 #' lyl_estimation2 <- lyl_range(data = simu_data, t = age_death, status = death,
 #'                              age_begin = 0, age_end = 94, tau = 95)
 #'
-#' # Calculate bootstrapped confidence interval
-#' lyl_estimation_ci2 <- lyl_ci(lyl_estimation2, niter = 10)
+#' # Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
+#' lyl_estimation_ci2 <- lyl_ci(lyl_estimation2, niter = 3)
 #' summary(lyl_estimation_ci2, weights = simu_data$age_disease)
 #' plot(lyl_estimation_ci2, weights = simu_data$age_disease)
 #' }
@@ -81,18 +81,21 @@ lyl_ci <- function(lyl_estimation, niter = 1000)  {
          call. = FALSE)
   }
 
-  if (!(class(lyl_estimation) %in% c("lyl", "lyl_range"))) {
+  if (!methods::is(lyl_estimation, "lyl") & !methods::is(lyl_estimation, "lyl_range")) {
+  #if (!(class(lyl_estimation) %in% c("lyl", "lyl_range"))) {
     stop("'lyl_ci' works only with objects obtained with functions 'lyl' or 'lyl_range'.",
          call. = FALSE)
   }
 
   message(paste0("Bootstrap estimation of confidence intervals [", niter, " iterations]"))
 
-  if (class(lyl_estimation) == "lyl") {
+  if (methods::is(lyl_estimation, "lyl")) {
+  #if (class(lyl_estimation) == "lyl") {
     age_begin <- age_end <- lyl_estimation[["age_specific"]]
   }
 
-  if (class(lyl_estimation) == "lyl_range") {
+  if (methods::is(lyl_estimation, "lyl_range")) {
+  #if (class(lyl_estimation) == "lyl_range") {
     age_begin <- lyl_estimation[["age_begin"]]
     age_end <- lyl_estimation[["age_end"]]
   }
@@ -148,7 +151,8 @@ lyl_ci <- function(lyl_estimation, niter = 1000)  {
 
   message("Done!")
 
-  if (class(lyl_estimation) == "lyl") {
+  if (methods::is(lyl_estimation, "lyl")) {
+  #if (class(lyl_estimation) == "lyl") {
     output <- list(
       LYL = lyl_estimation[["LYL"]],
       LYL_ci = LYL_ci,
@@ -162,7 +166,8 @@ lyl_ci <- function(lyl_estimation, niter = 1000)  {
 
   }
 
-  if (class(lyl_estimation) == "lyl_range") {
+  if (methods::is(lyl_estimation, "lyl_range")) {
+  #if (class(lyl_estimation) == "lyl_range") {
     output <- list(
       LYL = lyl_estimation[["LYL"]],
       LYL_ci = LYL_ci,

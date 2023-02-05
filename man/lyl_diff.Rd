@@ -56,7 +56,7 @@ lyl_diff(lyl_estimation1, lyl_estimation0)
 lyl_compare_plot(list(lyl_estimation1, lyl_estimation0))
 
 \donttest{
-# Calculate bootstrapped confidence interval (3 iterations to test)
+# Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
 lyl_estimation1_ci <- lyl_ci(lyl_estimation1, niter = 3)
 
 lyl_estimation0_ci <- lyl_ci(lyl_estimation0, niter = 3)
@@ -76,7 +76,7 @@ lyl_estimation3 <- lyl_range(data = diseased, t0 = age_disease,
 lyl_diff(lyl_estimation3, lyl_estimation2)
 lyl_diff(lyl_estimation3, lyl_estimation2, weights = diseased$age_disease)
 
-# Calculate bootstrapped confidence interval (3 iterations to test)
+# Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
 lyl_estimation3_ci <- lyl_ci(lyl_estimation3, niter = 3)
 lyl_diff(lyl_estimation3_ci, lyl_estimation2, weights = diseased$age_disease)
 }

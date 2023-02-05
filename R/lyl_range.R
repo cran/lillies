@@ -8,7 +8,8 @@
 #'
 #' @param data A dataframe, where each raw represents a person. The dataframe will
 #' have a time-to-event format with at least two variables: age at end of follow-up (\code{t})
-#' and status indicator with death/censoring (\code{status}).
+#' and status indicator with death/censoring (\code{status}). Note that this package is not developed
+#' to be used with tibbles.
 #' @param t0 Age at start of the follow-up time. Default is \code{NULL}, which
 #' means all subjects are followed from birth. For delayed entry, \code{t0} indicates
 #' beginning of follow-up.

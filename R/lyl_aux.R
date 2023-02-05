@@ -35,24 +35,28 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
   tmp <- tmp[, c("t0", "t1", "status")]
 
   # Check for variables t0 and t1
-  if (class(tmp$t0) != "numeric") {
+  #if (class(tmp$t0) != "numeric") {
+  if (!is.numeric(tmp$t0)) {
     stop(paste0("Variable '", parameters$t0, "' must be numeric."),
          call. = FALSE)
   }
 
-  if (class(tmp$t1) != "numeric") {
+  #if (class(tmp$t1) != "numeric") {
+  if (!is.numeric(tmp$t1)) {
     stop(paste0("Variable '", parameters$t, "' must be numeric."),
          call. = FALSE)
   }
 
   # Check for variable status
-  if (!(class(tmp$status) %in% c("numeric", "factor", "logical"))) {
+  if (!is.numeric(tmp$status) & !methods::is(tmp$status, "factor") & !methods::is(tmp$status, "logical") & !methods::is(tmp$status, "integer")) {
+  #if (!(class(tmp$status) %in% c("numeric", "factor", "logical", "integer"))) {
     stop(paste0("Variable '", parameters$status, "' must be a numeric, logical or factor."),
          call. = FALSE)
   }
 
   # If it's logical, no competing risks
-  if (class(tmp$status) == "logical") {
+  if (methods::is(tmp$status, "logical")) {
+  #if (class(tmp$status) == "logical") {
     message("2. Type of outcome data: 'logical' (TRUE = death / FALSE = alive) [no competing risks - one cause of death]")
     competing_risks <- FALSE
     values <- c(FALSE, TRUE)
@@ -62,7 +66,8 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
   }
 
   # If it's a factor
-  if (class(tmp$status) == "factor") {
+  if (methods::is(tmp$status, "factor")) {
+  #if (class(tmp$status) == "factor") {
     values <- levels(tmp$status)
     message(paste0("2. Type of outcome data: 'factor' (censoring = '", values[1], "' / different causes of death = '", paste(values[-1], collapse="', '"), "') [competing risks]"))
     competing_risks <- TRUE
@@ -72,7 +77,8 @@ lyl_check_errors <- function(data, t0, t, status, censoring_label, death_labels,
   }
 
   # If it's numerical, no competing risks if only two values
-  if (class(tmp$status) == "numeric") {
+  #if (class(tmp$status) == "numeric") {
+  if (is.numeric(tmp$status)) {
     values <- unique(tmp$status)[order(unique(tmp$status))]
     if (length(values) == 1) {
       tmp$status <- TRUE

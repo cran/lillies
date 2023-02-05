@@ -148,7 +148,7 @@ lyl_aggregated_range <- function(data, age, rates, surv, weights, data0, age0, r
   message("3. Almost there...")
   ages_onset <- data[, c(as.character(parameters$age), as.character(parameters$weights))]
   colnames(ages_onset) <- c("age", "n")
-  LYL_ages <- dplyr::mutate(dplyr::left_join(LYL, ages_onset, by = "age", all.x = T),
+  LYL_ages <- dplyr::mutate(dplyr::left_join(LYL, ages_onset, by = "age"),
                             n=ifelse(is.na(.data$n), 0, .data$n))
 
   LYL_avg <- dplyr::select(dplyr::summarise_all(LYL_ages, list(~ stats::weighted.mean(., w = .data$n))), -.data$age, -.data$n)

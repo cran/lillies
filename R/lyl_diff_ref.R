@@ -72,7 +72,8 @@
 
 lyl_diff_ref <- function(lyl_population1, data_ref, age, surv, rates, decimals = 2, level = 0.95, weights = NA, lyl_population0) {
 
-  if (!(class(lyl_population1) %in% c("lyl", "lyl_range", "lyl_ci"))) {
+  if(!methods::is(lyl_population1, "lyl") & !methods::is(lyl_population1, "lyl_range") & !methods::is(lyl_population1, "lyl_ci")) {
+  #if (!(class(lyl_population1) %in% c("lyl", "lyl_range", "lyl_ci"))) {
     stop("Object 'lyl_population1' must be obtained from one of the following functions: 'lyl' or 'lyl_range' (or subsequent 'lyl_ci').",
          call. = FALSE)
   }
@@ -94,7 +95,8 @@ lyl_diff_ref <- function(lyl_population1, data_ref, age, surv, rates, decimals =
     colnames(LYL1) <- c("age", lyl_population1[["death_labels"]], "life_exp")
     lyl_population1[["LYL"]] <- LYL1
 
-    if (class(lyl_population1) == "lyl_ci") {
+    if (methods::is(lyl_population1, "lyl_ci")) {
+    #if (class(lyl_population1) == "lyl_ci") {
       LYL1 <- lyl_population1$LYL_ci[, c("age", "life_exp", "iteration")]
       LYL1$x <- lyl_population1[["tau"]] - LYL1$age - LYL1$life_exp
       LYL1 <- LYL1[, c("age", "x", "life_exp", "iteration")]
@@ -105,9 +107,11 @@ lyl_diff_ref <- function(lyl_population1, data_ref, age, surv, rates, decimals =
 
 
   ####### Age_specific
-  if ((class(lyl_population1) == "lyl") |
-      ((class(lyl_population1) == "lyl_ci") & !is.null(lyl_population1[["type"]]) & lyl_population1[["type"]] == "age_specific")
-      ) {
+
+  if(methods::is(lyl_population1, "lyl") | (methods::is(lyl_population1, "lyl_ci") & !is.null(lyl_population1[["type"]]) & lyl_population1[["type"]] == "age_specific")) {
+#  if ((class(lyl_population1) == "lyl") |
+#      ((class(lyl_population1) == "lyl_ci") & !is.null(lyl_population1[["type"]]) & lyl_population1[["type"]] == "age_specific")
+#      ) {
 
     age_begin <- NA
     age_end <- NA
@@ -136,7 +140,8 @@ lyl_diff_ref <- function(lyl_population1, data_ref, age, surv, rates, decimals =
       LYL = LYL
     )
 
-    if ((class(lyl_population1) == "lyl")) {
+    if(methods::is(lyl_population1, "lyl")) {
+    #if ((class(lyl_population1) == "lyl")) {
       return(lyl_diff_lyl(lyl_population1, LYL0, decimals, weights, age_specific, age_begin, age_end, parameters))
     } else {
       niter <- lyl_population1[["niter"]]
@@ -150,9 +155,11 @@ lyl_diff_ref <- function(lyl_population1, data_ref, age, surv, rates, decimals =
   }
 
   ####### Age_range
-  if ((class(lyl_population1) == "lyl_range") |
-      ((class(lyl_population1) == "lyl_ci") & !is.null(lyl_population1[["type"]])  & lyl_population1[["type"]] == "age_range")
-  ) {
+  if(methods::is(lyl_population1, "lyl_range") | (methods::is(lyl_population1, "lyl_ci") & !is.null(lyl_population1[["type"]]) & lyl_population1[["type"]] == "age_range")) {
+
+  #if ((class(lyl_population1) == "lyl_range") |
+  #    ((class(lyl_population1) == "lyl_ci") & !is.null(lyl_population1[["type"]])  & lyl_population1[["type"]] == "age_range")
+  #) {
 
     age_begin <- lyl_population1[["age_begin"]]
     age_end <- lyl_population1[["age_end"]]
@@ -186,7 +193,8 @@ lyl_diff_ref <- function(lyl_population1, data_ref, age, surv, rates, decimals =
       LYL = LYL
     )
 
-  if ((class(lyl_population1) == "lyl_range")) {
+  if(methods::is(lyl_population1, "lyl_range")) {
+  #if ((class(lyl_population1) == "lyl_range")) {
     return(lyl_diff_lyl(lyl_population1, LYL0, decimals, weights, age_specific, age_begin, age_end, parameters))
   } else {
     niter <- lyl_population1[["niter"]]

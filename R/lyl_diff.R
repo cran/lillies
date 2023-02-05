@@ -53,7 +53,7 @@
 #' lyl_compare_plot(list(lyl_estimation1, lyl_estimation0))
 #'
 #' \donttest{
-#' # Calculate bootstrapped confidence interval (3 iterations to test)
+#' # Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
 #' lyl_estimation1_ci <- lyl_ci(lyl_estimation1, niter = 3)
 #'
 #' lyl_estimation0_ci <- lyl_ci(lyl_estimation0, niter = 3)
@@ -73,14 +73,15 @@
 #' lyl_diff(lyl_estimation3, lyl_estimation2)
 #' lyl_diff(lyl_estimation3, lyl_estimation2, weights = diseased$age_disease)
 #'
-#' # Calculate bootstrapped confidence interval (3 iterations to test)
+#' # Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
 #' lyl_estimation3_ci <- lyl_ci(lyl_estimation3, niter = 3)
 #' lyl_diff(lyl_estimation3_ci, lyl_estimation2, weights = diseased$age_disease)
 #' }
 
 lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.95, weights = NA) {
 
-  if (!(class(lyl_population1) %in% c("lyl", "lyl_range", "lyl_ci")) | !(class(lyl_population0) %in% c("lyl", "lyl_range", "lyl_ci"))) {
+  if((!methods::is(lyl_population1, "lyl") & !methods::is(lyl_population1, "lyl_range") & !methods::is(lyl_population1, "lyl_ci")) | (!methods::is(lyl_population0, "lyl") & !methods::is(lyl_population0, "lyl_range") & !methods::is(lyl_population0, "lyl_ci"))) {
+  #if (!(class(lyl_population1) %in% c("lyl", "lyl_range", "lyl_ci")) | !(class(lyl_population0) %in% c("lyl", "lyl_range", "lyl_ci"))) {
     stop("The two objects must be obtained from the same function: either 'lyl' or 'lyl_range' (or subsequent 'lyl_ci').",
          call. = FALSE)
   }
@@ -99,7 +100,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
   parameters <- as.list(match.call.defaults()[-1])
 
   # Without confidence intervals
-  if ((class(lyl_population1) == "lyl") & (class(lyl_population0) == "lyl")) {
+  if(methods::is(lyl_population1, "lyl") & methods::is(lyl_population0, "lyl")) {
+  #if ((class(lyl_population1) == "lyl") & (class(lyl_population0) == "lyl")) {
     if (lyl_population1[["age_specific"]] != lyl_population0[["age_specific"]]) {
       stop("The two objects must have the same 'age_specific' parameter.",
            call. = FALSE)
@@ -110,7 +112,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
     return(lyl_diff_lyl(lyl_population1, lyl_population0, decimals, weights, age_specific, age_begin, age_end, parameters))
   }
 
-  if ((class(lyl_population1) == "lyl_range") & (class(lyl_population0) == "lyl_range")) {
+  if(methods::is(lyl_population1, "lyl_range") & methods::is(lyl_population0, "lyl_range")) {
+  #if ((class(lyl_population1) == "lyl_range") & (class(lyl_population0) == "lyl_range")) {
     if ((lyl_population1[["age_begin"]] != lyl_population0[["age_begin"]]) | (lyl_population1[["age_end"]] != lyl_population0[["age_end"]])) {
       stop("The two objects must have the same 'age_begin' and 'age_end'.",
            call. = FALSE)
@@ -122,7 +125,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
   }
 
   # With confidence intervals
-  if ((class(lyl_population1) == "lyl_ci") & (class(lyl_population0) == "lyl_ci")) {
+  if(methods::is(lyl_population1, "lyl_ci") & methods::is(lyl_population0, "lyl_ci")) {
+  #if ((class(lyl_population1) == "lyl_ci") & (class(lyl_population0) == "lyl_ci")) {
 
     niter1 <- lyl_population1[["niter"]]
     niter0 <- lyl_population0[["niter"]]
@@ -179,7 +183,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
   }
 
   # Age specific (one with confidence interval and the other without)
-  if ((class(lyl_population1) == "lyl_ci") & (class(lyl_population0) == "lyl")) {
+  if(methods::is(lyl_population1, "lyl_ci") & methods::is(lyl_population0, "lyl")) {
+  #if ((class(lyl_population1) == "lyl_ci") & (class(lyl_population0) == "lyl")) {
 
     if (lyl_population1[["type"]] == "age_specific") {
       if (lyl_population1[["age_specific"]] != lyl_population0[["age_specific"]]) {
@@ -200,7 +205,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
     }
   }
 
-  if ((class(lyl_population0) == "lyl_ci") & (class(lyl_population1) == "lyl")) {
+  if(methods::is(lyl_population0, "lyl_ci") & methods::is(lyl_population1, "lyl")) {
+  #if ((class(lyl_population0) == "lyl_ci") & (class(lyl_population1) == "lyl")) {
 
     if (lyl_population0[["type"]] == "age_specific") {
       if (lyl_population1[["age_specific"]] != lyl_population0[["age_specific"]]) {
@@ -222,7 +228,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
   }
 
   # Age range (one with confidence interval and the other without)
-  if ((class(lyl_population1) == "lyl_ci") & (class(lyl_population0) == "lyl_range")) {
+  if(methods::is(lyl_population1, "lyl_ci") & methods::is(lyl_population0, "lyl_range")) {
+  #if ((class(lyl_population1) == "lyl_ci") & (class(lyl_population0) == "lyl_range")) {
 
     if (lyl_population1[["type"]] == "age_range") {
       if ((lyl_population1[["age_begin"]] != lyl_population0[["age_begin"]]) | (lyl_population1[["age_end"]] != lyl_population0[["age_end"]])) {
@@ -244,7 +251,8 @@ lyl_diff <- function(lyl_population1, lyl_population0, decimals = 2, level = 0.9
     }
   }
 
-  if ((class(lyl_population0) == "lyl_ci") & (class(lyl_population1) == "lyl_range")) {
+  if(methods::is(lyl_population0, "lyl_ci") & methods::is(lyl_population1, "lyl_range")) {
+  #if ((class(lyl_population0) == "lyl_ci") & (class(lyl_population1) == "lyl_range")) {
 
     if (lyl_population0[["type"]] == "age_range") {
       if ((lyl_population1[["age_begin"]] != lyl_population0[["age_begin"]]) | (lyl_population1[["age_end"]] != lyl_population0[["age_end"]])) {

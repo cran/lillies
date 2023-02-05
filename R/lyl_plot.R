@@ -203,7 +203,8 @@ lyl_checkplot <- function(x) {
          call. = FALSE)
   }
 
-  if (class(x) != "lyl_range") {
+  if(!methods::is(x, "lyl_range")) {
+  #if (class(x) != "lyl_range") {
     stop("'lyl_checkplot' works only with objects obtained with function 'lyl_range'.",
          call. = FALSE)
   }
@@ -309,7 +310,7 @@ plot.lyl_ci <- function(x, level = 0.95, weights, ...) {
     ages_onset <- dplyr::mutate(data.frame(t0=weights), age = floor(.data$t0))
     ages_onset <- dplyr::ungroup(dplyr::summarise(dplyr::group_by(ages_onset, .data$age), n = dplyr::n()))
 
-    LYL_ci_ages <- dplyr::mutate(dplyr::left_join(LYL_ci, ages_onset, by = "age", all.x = T),
+    LYL_ci_ages <- dplyr::mutate(dplyr::left_join(LYL_ci, ages_onset, by = "age"),
                                  n=ifelse(is.na(.data$n), 0, .data$n))
     LYL_ci <- dplyr::ungroup(dplyr::select(dplyr::summarise_all(dplyr::group_by(LYL_ci_ages, .data$iteration), list(~ stats::weighted.mean(., w = .data$n))), -.data$age, -.data$n))
 
@@ -497,18 +498,21 @@ lyl_compare_plot <- function (x, color_alive = NA, colors = NA, nrow = NULL, nco
     stop("Package 'ggplot2' needed for this function to work. Please install it.",
          call. = FALSE)
   }
-  if (class(x) != "list" | length(x) < 1) {
+  if(!methods::is(x, "list") | length(x) < 1) {
+  #if (class(x) != "list" | length(x) < 1) {
     stop("'x' must be a list of objects obtained with function 'lyl'.",
          call. = FALSE)
   }
-  if (class(x[[1]]) != "lyl") {
+  if(!methods::is(x[[1]], "lyl")) {
+  #if (class(x[[1]]) != "lyl") {
     stop("'lyl_compare_plot' works only with a list of objects obtained with function 'lyl'.",
          call. = FALSE)
   }
   if (length(x) > 1) {
     total <- length(x)
     for (i in 2:total) {
-      if (class(x[[i]]) != "lyl") {
+      if(!methods::is(x[[i]], "lyl")) {
+      #if (class(x[[i]]) != "lyl") {
         stop("'lyl_compare_plot' works only with a list of objects obtained with function 'lyl'.",
              call. = FALSE)
       }

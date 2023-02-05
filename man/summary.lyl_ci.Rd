@@ -45,7 +45,7 @@ data(simu_data)
 lyl_estimation <- lyl(data = simu_data, t = age_death, status = death,
                       age_specific = 45, tau = 95)
 
-# Calculate bootstrapped confidence interval (3 iterations to test)
+# Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
 lyl_estimation_ci <- lyl_ci(lyl_estimation, niter = 3)
 summary(lyl_estimation_ci)
 
@@ -55,8 +55,8 @@ summary(lyl_estimation_ci)
 lyl_estimation2 <- lyl_range(data = simu_data, t = age_death, status = death,
                              age_begin = 0, age_end = 94, tau = 95)
 
-# Calculate bootstrapped confidence interval
-lyl_estimation_ci2 <- lyl_ci(lyl_estimation2)
+# Calculate bootstrapped confidence interval (3 iterations to test; more are necessary)
+lyl_estimation_ci2 <- lyl_ci(lyl_estimation2, niter = 3)
 summary(lyl_estimation_ci2, weights = simu_data$age_disease)
 }
 }
