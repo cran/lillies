@@ -162,7 +162,7 @@ estimate_lyl <- function(pop, age_specific, tau, competing_risks, censoring_labe
       cr_df <- data.frame(time = km$time, prob = km$pstate)
 
       #Change for survival 3.0
-      if(utils::packageVersion("survival") >= 3) {
+      if(utils::packageVersion("survival") >= "3") {
         colnames(cr_df) <- c("time", gsub(" ", "", km$states))
         colnames(cr_df)[colnames(cr_df) == "(s0)"] <- gsub(" ", "", censoring_label)
       } else {
